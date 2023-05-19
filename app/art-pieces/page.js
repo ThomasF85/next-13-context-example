@@ -1,6 +1,7 @@
 import fetchArtPieces from "@/lib/fetchArtPieces";
-import ArtPiecesPage from "./ArtPiecesPage";
 import { Suspense } from "react";
+import ArtPiecePreview from "@/components/ArtPiecePreview";
+import styles from "./page.module.css";
 
 export default function Page() {
   return (
@@ -18,5 +19,13 @@ export default function Page() {
 async function PageContent() {
   const pieces = await fetchArtPieces();
 
-  return <ArtPiecesPage pieces={pieces} />;
+  return (
+    <ul className={styles.list}>
+      {pieces.map((piece) => (
+        <li key={piece.slug} className={styles.item}>
+          <ArtPiecePreview piece={piece} />
+        </li>
+      ))}
+    </ul>
+  );
 }

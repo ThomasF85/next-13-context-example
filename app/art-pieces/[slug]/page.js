@@ -1,5 +1,5 @@
+import ArtPieceDetails from "@/components/ArtPiecesDetails";
 import fetchArtPieces from "@/lib/fetchArtPieces";
-import ArtPieceDetailsPage from "./ArtPiecesDetailsPage";
 
 export async function generateStaticParams() {
   const pieces = await fetchArtPieces();
@@ -18,7 +18,7 @@ export default async function Page({ params }) {
       <header>
         <h1>{piece?.name ?? "Unknown Piece"}</h1>
       </header>
-      {piece && <ArtPieceDetailsPage piece={piece} />}
+      {piece && <ArtPieceDetails piece={piece} />}
     </>
   );
 }

@@ -2,14 +2,25 @@
 
 import styles from "./SpotlightPage.module.css";
 import Image from "next/image.js";
-import { useArtPiecesInfo } from "@/lib/useArtPiecesInfo";
 import FavoriteButton from "@/components/FavoriteButton";
+import { useContext, useEffect, useState } from "react";
+import {
+  ArtPiecesInfoAPIContext,
+  ArtPiecesInfoContext,
+} from "@/lib/context/artPiecesInfoContext";
+import { randomIndex } from "@/lib/randomIndex";
 
-export default function SpotlightPage({ piece }) {
-  const { isFavorite, toggleFavorite } = useArtPiecesInfo();
+export default function SpotlightPage({ pieces }) {
+  const { isFavorite } = useContext(ArtPiecesInfoContext);
+  const { toggleFavorite } = useContext(ArtPiecesInfoAPIContext);
+  const [piece, setPiece] = useState(null);
+
+  useEffect(() => {
+    setPiece(pieces[randomIndex(pieces.length)]);
+  }, []);
 
   if (!piece) {
-    return <div>No Piece present</div>;
+    return <div>Shuffling</div>;
   }
 
   return (

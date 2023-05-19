@@ -1,23 +1,15 @@
-"use client";
-
 import FavoriteButton from "@/components/FavoriteButton";
-import styles from "./ArtPieceDetailsPage.module.css";
+import styles from "./index.module.css";
 import Image from "next/image";
 import Comments from "@/components/Comments";
-import { useArtPiecesInfo } from "@/lib/useArtPiecesInfo";
 
-export default function ArtPieceDetailsPage({ piece }) {
-  const { isFavorite, toggleFavorite, addComment, getComments } =
-    useArtPiecesInfo();
+export default function ArtPieceDetails({ piece }) {
   const { imageSource: image, title, artist, year, genre, colors } = piece;
 
   return (
     <section className={styles.wrapper}>
       <div className={styles.actionContainer}>
-        <FavoriteButton
-          isFavorite={isFavorite(piece.slug)}
-          toggleFavorite={() => toggleFavorite(piece.slug)}
-        />
+        <FavoriteButton slug={piece.slug} />
       </div>
       <h2>{title}</h2>
       <div className={styles.imageContainer}>
@@ -48,10 +40,7 @@ export default function ArtPieceDetailsPage({ piece }) {
         <li>{year}</li>
         <li>{genre}</li>
       </ul>
-      <Comments
-        comments={getComments(piece.slug)}
-        addComment={(newComment) => addComment(piece.slug, newComment)}
-      />
+      <Comments slug={piece.slug} />
     </section>
   );
 }

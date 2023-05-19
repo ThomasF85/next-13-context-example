@@ -16,7 +16,6 @@ export default function Home() {
 
 async function PageContent() {
   const pieces = await fetchArtPieces();
-  const spotlightPiece = pieces[randomIndex(pieces.length)];
 
-  return <SpotlightPage piece={spotlightPiece} />;
+  return <SpotlightPage pieces={pieces} />;
 }

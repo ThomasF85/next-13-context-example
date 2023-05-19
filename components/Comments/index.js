@@ -1,12 +1,20 @@
 "use client";
 
+import { useContext } from "react";
 import styles from "./index.module.css";
+import {
+  ArtPiecesInfoAPIContext,
+  ArtPiecesInfoContext,
+} from "@/lib/context/artPiecesInfoContext";
 
-export default function Comments({ comments, addComment }) {
+export default function Comments({ slug }) {
+  const { getComments } = useContext(ArtPiecesInfoContext);
+  const { addComment } = useContext(ArtPiecesInfoAPIContext);
+
   function handleSubmit(event) {
     event.preventDefault();
     const { comment } = event.target.elements;
-    addComment(comment.value);
+    addComment(slug, comment.value);
     event.target.reset();
   }
 
@@ -14,7 +22,7 @@ export default function Comments({ comments, addComment }) {
     <section className={styles.wrapper}>
       <h2 className={styles.title}>Comments</h2>
       <ul role="list" className={styles.list}>
-        {comments.map((comment, index) => (
+        {getComments(slug).map((comment, index) => (
           <li key={index}>
             <p>
               <q>{comment}</q>

@@ -3,17 +3,13 @@ import styles from "./index.module.css";
 import Image from "next/image.js";
 import FavoriteButton from "../FavoriteButton";
 
-export default function ArtPiecePreview({ piece, isFavorite, toggleFavorite }) {
+export default function ArtPiecePreview({ piece }) {
   const { imageSource: image, artist, name: title } = piece;
 
   return (
     <figure className={styles.figure}>
       <div className={styles.imageContainer}>
-        <FavoriteButton
-          isFavorite={isFavorite}
-          toggleFavorite={toggleFavorite}
-          positionAbsolute
-        />
+        <FavoriteButton slug={piece.slug} positionAbsolute />
         <Image
           className={styles.image}
           src={image}

@@ -2,10 +2,11 @@
 
 import ArtPiecePreview from "@/components/ArtPiecePreview";
 import styles from "./FavoritesPage.module.css";
-import { useArtPiecesInfo } from "@/lib/useArtPiecesInfo";
+import { useContext } from "react";
+import { ArtPiecesInfoContext } from "@/lib/context/artPiecesInfoContext";
 
 export default function FavoritesPage({ pieces }) {
-  const { isFavorite, toggleFavorite } = useArtPiecesInfo();
+  const { isFavorite } = useContext(ArtPiecesInfoContext);
 
   return (
     <ul className={styles.list}>
@@ -13,11 +14,7 @@ export default function FavoritesPage({ pieces }) {
         .filter((piece) => isFavorite(piece.slug))
         .map((piece) => (
           <li key={piece.slug} className={styles.item}>
-            <ArtPiecePreview
-              isFavorite={isFavorite(piece.slug)}
-              toggleFavorite={() => toggleFavorite(piece.slug)}
-              piece={piece}
-            />
+            <ArtPiecePreview piece={piece} />
           </li>
         ))}
     </ul>

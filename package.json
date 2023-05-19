@@ -1,5 +1,5 @@
 {
-  "name": "next-13-local-state-example",
+  "name": "next-13-context-example",
   "version": "0.1.0",
   "private": true,
   "scripts": {
