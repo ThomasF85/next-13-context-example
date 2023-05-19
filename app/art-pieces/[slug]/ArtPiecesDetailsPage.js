@@ -1,26 +1,23 @@
-import useStore from "@/lib/useStore";
-import styles from "./index.module.css";
-import dynamic from "next/dynamic";
+"use client";
+
+import FavoriteButton from "@/components/FavoriteButton";
+import styles from "./ArtPieceDetailsPage.module.css";
 import Image from "next/image";
+import Comments from "@/components/Comments";
+import { useArtPiecesInfo } from "@/lib/useArtPiecesInfo";
 
-const FavoriteButton = dynamic(() => import("../FavoriteButton"), {
-  ssr: false,
-});
-const Comments = dynamic(() => import("../Comments"), { ssr: false });
-
-export default function ArtPieceDetails({ slug }) {
-  const piece = useStore.getState().pieces.find((piece) => piece.slug === slug);
-
-  if (!piece) {
-    return <div>Piece not found</div>;
-  }
-
+export default function ArtPieceDetailsPage({ piece }) {
+  const { isFavorite, toggleFavorite, addComment, getComments } =
+    useArtPiecesInfo();
   const { imageSource: image, title, artist, year, genre, colors } = piece;
 
   return (
     <section className={styles.wrapper}>
       <div className={styles.actionContainer}>
-        <FavoriteButton slug={slug} />
+        <FavoriteButton
+          isFavorite={isFavorite(piece.slug)}
+          toggleFavorite={() => toggleFavorite(piece.slug)}
+        />
       </div>
       <h2>{title}</h2>
       <div className={styles.imageContainer}>
@@ -51,7 +48,10 @@ export default function ArtPieceDetails({ slug }) {
         <li>{year}</li>
         <li>{genre}</li>
       </ul>
-      <Comments slug={slug} />
+      <Comments
+        comments={getComments(piece.slug)}
+        addComment={(newComment) => addComment(piece.slug, newComment)}
+      />
     </section>
   );
 }

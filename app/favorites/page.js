@@ -1,24 +1,22 @@
-import StoreInitializer from "@/lib/StoreInitializer";
 import fetchArtPieces from "@/lib/fetchArtPieces";
-import useStore from "@/lib/useStore";
-import dynamic from "next/dynamic";
+import FavoritesPage from "./FavoritesPage";
+import { Suspense } from "react";
 
-const ClientPage = dynamic(() => import("./ClientPage"), { ssr: false });
-
-export default async function Page() {
-  const pieces = await fetchArtPieces();
-
-  // Setting the state to the server store
-  useStore.setState({ pieces });
-
+export default function Page() {
   return (
     <>
-      {/* StoreInitializer is setting the state to the client store*/}
-      <StoreInitializer state={{ pieces }} />
       <header>
         <h1>Art Pieces</h1>
       </header>
-      <ClientPage />
+      <Suspense fallback={<div>Loading...</div>}>
+        <PageContent />
+      </Suspense>
     </>
   );
+}
+
+async function PageContent() {
+  const pieces = await fetchArtPieces();
+
+  return <FavoritesPage pieces={pieces} />;
 }

@@ -1,19 +1,12 @@
 "use client";
 
-import useStore from "@/lib/useStore";
 import styles from "./index.module.css";
 
-export default function Comments({ slug }) {
-  const comments = useStore(
-    (state) =>
-      state.artPiecesInfo.find((piece) => piece.slug === slug)?.comments || []
-  );
-  const addComment = useStore((state) => state.addComment);
-
+export default function Comments({ comments, addComment }) {
   function handleSubmit(event) {
     event.preventDefault();
     const { comment } = event.target.elements;
-    addComment(slug, comment.value);
+    addComment(comment.value);
     event.target.reset();
   }
 

@@ -1,7 +1,5 @@
-import ArtPieceDetails from "@/components/ArtPieceDetails";
-import StoreInitializer from "@/lib/StoreInitializer";
 import fetchArtPieces from "@/lib/fetchArtPieces";
-import useStore from "@/lib/useStore";
+import ArtPieceDetailsPage from "./ArtPiecesDetailsPage";
 
 export async function generateStaticParams() {
   const pieces = await fetchArtPieces();
@@ -13,21 +11,14 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }) {
   const pieces = await fetchArtPieces();
-
-  // Setting the state to the server store
-  useStore.setState({ pieces });
+  const piece = pieces.find((piece) => piece.slug === params.slug);
 
   return (
     <>
-      {/* StoreInitializer is setting the state to the client store*/}
-      <StoreInitializer state={{ pieces }} />
       <header>
-        <h1>
-          {pieces.find((piece) => piece.slug === params.slug)?.name ??
-            "Unknown Piece"}
-        </h1>
+        <h1>{piece?.name ?? "Unknown Piece"}</h1>
       </header>
-      <ArtPieceDetails slug={params.slug} />
+      {piece && <ArtPieceDetailsPage piece={piece} />}
     </>
   );
 }

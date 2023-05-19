@@ -1,12 +1,13 @@
-import styles from "./index.module.css";
+"use client";
+
+import styles from "./SpotlightPage.module.css";
 import Image from "next/image.js";
-import dynamic from "next/dynamic";
+import { useArtPiecesInfo } from "@/lib/useArtPiecesInfo";
+import FavoriteButton from "@/components/FavoriteButton";
 
-const FavoriteButton = dynamic(() => import("../FavoriteButton"), {
-  ssr: false,
-});
+export default function SpotlightPage({ piece }) {
+  const { isFavorite, toggleFavorite } = useArtPiecesInfo();
 
-export default function Spotlight({ piece }) {
   if (!piece) {
     return <div>No Piece present</div>;
   }
@@ -14,7 +15,11 @@ export default function Spotlight({ piece }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.imageContainer}>
-        <FavoriteButton slug={piece.slug} positionAbsolute={true} />
+        <FavoriteButton
+          isFavorite={isFavorite(piece.slug)}
+          toggleFavorite={() => toggleFavorite(piece.slug)}
+          positionAbsolute={true}
+        />
         <Image
           className={styles.image}
           src={piece.imageSource}

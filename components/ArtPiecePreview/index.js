@@ -1,23 +1,19 @@
 import Link from "next/link.js";
 import styles from "./index.module.css";
 import Image from "next/image.js";
-import dynamic from "next/dynamic.js";
+import FavoriteButton from "../FavoriteButton";
 
-const FavoriteButton = dynamic(() => import("../FavoriteButton/index.js"), {
-  ssr: false,
-});
-
-export default function ArtPiecePreview({ FavoriteButtonComponent, piece }) {
+export default function ArtPiecePreview({ piece, isFavorite, toggleFavorite }) {
   const { imageSource: image, artist, name: title } = piece;
 
   return (
     <figure className={styles.figure}>
       <div className={styles.imageContainer}>
-        {FavoriteButtonComponent ? (
-          <FavoriteButtonComponent slug={piece.slug} positionAbsolute />
-        ) : (
-          <FavoriteButton slug={piece.slug} positionAbsolute />
-        )}
+        <FavoriteButton
+          isFavorite={isFavorite}
+          toggleFavorite={toggleFavorite}
+          positionAbsolute
+        />
         <Image
           className={styles.image}
           src={image}
